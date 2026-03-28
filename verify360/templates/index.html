@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VERIFY360 - Website Safety Checker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+<body>
+
+<!-- ================================================================
+     HEADER
+     ================================================================ -->
+<header>
+  <div class="logo">VERIFY360</div>
+  <nav>
+    <a href="#features">Features</a>
+    <a href="#live">Live Feed</a>
+    {% if session.get("username") %}
+      <span class="nav-user">👤 {{ session["username"] }}</span>
+      <a href="/logout" class="nav-logout">Logout</a>
+    {% endif %}
+    <button class="report-btn" onclick="openModal()">🚨 REPORT SCAM</button>
+  </nav>
+</header>
+
+<!-- ================================================================
+     STATS BAR
+     ================================================================ -->
+<div id="statsBar">
+  <div class="stat">🔍 Total Scans    <strong id="statScans">—</strong></div>
+  <div class="stat">🚨 Threats Found  <strong id="statThreats">—</strong></div>
+  <div class="stat">🗄️ DB Entries     <strong id="statDB">—</strong></div>
+  <div class="stat">📝 Reports Filed  <strong id="statReports">—</strong></div>
+</div>
+
+<!-- ================================================================
+     HERO
+     ================================================================ -->
+<section class="hero">
+  <div class="security-badge">🔒 SECURITY LEVEL: MAXIMUM</div>
+
+  <h1>
+    <h1>
+  <span class="red">VERIFY</span> FIRST, 
+  <span class="red">TRUST</span> LATER...
+</h1>
+  </h1>
+
+  <p>
+    Real-time threat detection powered by a community scam database.<br>
+    Stop scams before they start.
+  </p>
+
+  <div class="tabs">
+    <button class="tab active" onclick="selectTab(this, 'Phone')">📱 Phone</button>
+    <button class="tab"        onclick="selectTab(this, 'WhatsApp')">💬 WhatsApp</button>
+    <button class="tab"        onclick="selectTab(this, 'Website')">🌐 Website</button>
+    <button class="tab"        onclick="selectTab(this, 'Instagram')">📸 Instagram</button>
+  </div>
+
+  <div class="scan-box">
+    <input type="text" id="inputData" placeholder="Enter phone number to scan..." autofocus>
+    <button id="scanBtn" onclick="scanData()">⚡ EXECUTE SCAN</button>
+  </div>
+
+  <div id="result" class="hidden"></div>
+</section>
+
+<!-- ================================================================
+     FEATURES
+     ================================================================ -->
+<section id="features">
+  <div class="feature-card">
+    <h3>📱 Phone Number Detection</h3>
+    <p>Validates format, detects repeated/sequential digits, and checks against thousands of community-reported scam numbers.</p>
+  </div>
+  <div class="feature-card">
+    <h3>🌐 Phishing Website Detection</h3>
+    <p>Checks HTTPS, suspicious TLDs (.tk .ml .ga), typosquatting of popular brands, and known phishing domains.</p>
+  </div>
+  <div class="feature-card">
+    <h3>💬 WhatsApp Verification</h3>
+    <p>Analyses WhatsApp numbers and wa.me links for social engineering patterns and database matches.</p>
+  </div>
+  <div class="feature-card">
+    <h3>📸 Instagram Verification</h3>
+    <p>Detects impersonation accounts using keyword signals, digit flooding, and community-reported usernames.</p>
+  </div>
+  <div class="feature-card">
+    <h3>📡 Community-Powered Database</h3>
+    <p>Every user report strengthens the database. Your data from the admin panel feeds directly into every scan.</p>
+  </div>
+  <div class="feature-card">
+    <h3>🧠 Transparent Scoring</h3>
+    <p>See exactly <em>why</em> something was flagged — detailed reasons help you make informed decisions.</p>
+  </div>
+</section>
+
+<!-- ================================================================
+     LIVE FEED
+     ================================================================ -->
+<section id="live">
+  <h2>📡 Live Scan Feed</h2>
+  <p class="sub">Real-time activity — refreshes every 15 seconds</p>
+  <div id="liveFeed">
+    <p id="feedEmpty">Loading...</p>
+  </div>
+</section>
+
+<!-- ================================================================
+     FOOTER
+     ================================================================ -->
+<footer>
+  <div class="footer-logo">VERIFY360</div>
+  <p>"VERIFY FIRST, TRUST LATER..."</p>
+  <p>Leading the fight against digital deception.</p>
+  <p style="margin-top:12px">© 2026 VERIFY360</p>
+</footer>
+
+<!-- ================================================================
+     REPORT MODAL
+     ================================================================ -->
+<div id="modalBg" onclick="if(event.target===this) closeModal()">
+  <div class="modal">
+    <h2>🚨 Report a Scam</h2>
+    <p>Help protect others — your report is added to the shared database immediately.</p>
+
+    <label>Type</label>
+    <select id="reportType">
+      <option>Phone</option>
+      <option>WhatsApp</option>
+      <option>Website</option>
+      <option>Instagram</option>
+    </select>
+
+    <label>Number / URL / Username</label>
+    <input type="text" id="reportInput" placeholder="Paste the scam data here">
+
+    <label>What happened? (optional)</label>
+    <textarea id="reportDesc" placeholder="e.g. Called pretending to be from SBI, asked for OTP..."></textarea>
+
+    <div class="modal-btns">
+      <button class="btn-submit" onclick="submitReport()">Submit Report</button>
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast notification -->
+<div id="toast"></div>
+
+<!-- Scripts loaded at end of body for best performance -->
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>

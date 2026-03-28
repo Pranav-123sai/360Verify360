@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VERIFY360 — Admin Access</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='admin_login.css') }}">
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+
+<div class="card">
+
+  <!-- Lock icon -->
+  <div class="lock-icon">🔐</div>
+
+  <h1 class="title">Admin Access</h1>
+  <p class="subtitle">VERIFY360 Control Panel</p>
+
+  <!-- Error message -->
+  {% if error %}
+    <div class="error-box">⛔ {{ error }}</div>
+  {% endif %}
+
+  <!-- Login form -->
+  <form method="POST" action="/admin/login" id="adminForm">
+
+    <div class="field">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username"
+             placeholder="Admin username"
+             autocomplete="username" required autofocus>
+    </div>
+
+    <div class="field">
+      <label for="password">Password</label>
+      <div class="pw-wrap">
+        <input type="password" id="password" name="password"
+               placeholder="Admin password"
+               autocomplete="current-password" required>
+        <button type="button" class="pw-toggle"
+                onclick="togglePw()">👁️</button>
+      </div>
+    </div>
+
+    <button type="submit" class="submit-btn" id="submitBtn">
+      Unlock Panel →
+    </button>
+
+  </form>
+
+  <a href="/" class="back-link">← Back to public site</a>
+
+</div><!-- /card -->
+
+<script src="{{ url_for('static', filename='admin_login.js') }}"></script>
+</body>
+</html>

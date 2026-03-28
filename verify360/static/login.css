@@ -1,0 +1,303 @@
+/* ================================================================
+   VERIFY360 — Login Page Styles
+   login.css
+   ================================================================ */
+
+/* ── Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ================================================================
+   PAGE BASE
+   ================================================================ */
+body {
+  background: #0b0f17;
+  color: #e0e0e0;
+  font-family: 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Subtle dot-grid background ── */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, #1f2a3a 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ================================================================
+   CARD
+   ================================================================ */
+.card-wrap {
+  position: relative;
+  z-index: 1;
+  background: #0f1624;
+  border: 1px solid #1f2a3a;
+  border-radius: 12px;
+  padding: 40px 38px 32px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* ================================================================
+   BRAND / LOGO
+   ================================================================ */
+.brand {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.brand-logo {
+  font-size: 26px;
+  font-weight: bold;
+  color: #ff2e2e;
+  letter-spacing: 2px;
+}
+
+.brand-sub {
+  color: #555;
+  font-size: 12px;
+  margin-top: 5px;
+  letter-spacing: 0.3px;
+}
+
+/* ================================================================
+   FLASH MESSAGES
+   ================================================================ */
+.flash {
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.flash-error   { background: #2a0a0a; border: 1px solid #cc0000; color: #ff6666; }
+.flash-success { background: #0a2a1a; border: 1px solid #00a86b; color: #00ff99; }
+.flash-info    { background: #0a1a2a; border: 1px solid #0066cc; color: #66aaff; }
+
+/* ================================================================
+   TAB BAR
+   ================================================================ */
+.tab-bar {
+  display: flex;
+  background: #080c13;
+  border: 1px solid #1f2a3a;
+  border-radius: 6px;
+  padding: 4px;
+  margin-bottom: 26px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 9px;
+  border: none;
+  background: transparent;
+  color: #666;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: 0.2s;
+}
+
+.tab-btn:hover {
+  color: #aaa;
+}
+
+.tab-btn.active {
+  background: #ff2e2e;
+  color: #fff;
+}
+
+/* ================================================================
+   FORMS
+   ================================================================ */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.auth-form.hidden {
+  display: none;
+}
+
+/* ── Field ── */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.field-hint {
+  font-size: 11px;
+  color: #555;
+  margin-top: 2px;
+}
+
+/* ── Input wrapper (icon + input + toggle button) ── */
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  font-size: 14px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.input-wrap input {
+  width: 100%;
+  padding: 11px 40px 11px 38px;
+  background: #080c13;
+  border: 1px solid #1f2a3a;
+  border-radius: 6px;
+  color: #e0e0e0;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.input-wrap input:focus {
+  border-color: #00ffcc;
+  background: #0a1020;
+}
+
+.input-wrap input::placeholder {
+  color: #444;
+}
+
+/* ── Password visibility toggle ── */
+.toggle-pw {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #555;
+  padding: 4px;
+  transition: color 0.2s;
+}
+
+.toggle-pw:hover {
+  color: #aaa;
+}
+
+/* ================================================================
+   FORM ERROR
+   ================================================================ */
+.form-error {
+  background: #2a0a0a;
+  border: 1px solid #cc0000;
+  color: #ff6666;
+  padding: 9px 12px;
+  border-radius: 5px;
+  font-size: 13px;
+  text-align: center;
+}
+
+.form-error.hidden {
+  display: none;
+}
+
+/* ================================================================
+   SUBMIT BUTTON
+   ================================================================ */
+.submit-btn {
+  width: 100%;
+  padding: 13px;
+  background: #ff2e2e;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  margin-top: 4px;
+  letter-spacing: 0.3px;
+}
+
+.submit-btn:hover {
+  background: #cc0000;
+}
+
+.submit-btn:active {
+  transform: scale(0.98);
+}
+
+.submit-btn:disabled {
+  background: #1f2a3a;
+  color: #555;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ================================================================
+   FOOTER NOTE & BACK LINK
+   ================================================================ */
+.card-note {
+  font-size: 12px;
+  color: #444;
+  text-align: center;
+  margin-top: 24px;
+  line-height: 1.6;
+  border-top: 1px solid #1a2030;
+  padding-top: 16px;
+}
+
+.back-link {
+  display: block;
+  text-align: center;
+  margin-top: 14px;
+  font-size: 13px;
+  color: #555;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.back-link:hover {
+  color: #00ffcc;
+}
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (max-width: 480px) {
+  .card-wrap {
+    padding: 28px 22px 24px;
+  }
+
+  .brand-logo {
+    font-size: 22px;
+  }
+}

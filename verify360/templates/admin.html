@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VERIFY360 — Admin Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+<body>
+
+<!-- ================================================================
+     SIDEBAR
+     ================================================================ -->
+<div class="sidebar">
+  <div class="brand">
+    VERIFY360
+    <span>Admin Panel</span>
+  </div>
+  <div class="admin-badge">
+    <span class="admin-icon">🔐</span>
+    <div>
+      <div class="admin-name">{{ admin_username }}</div>
+      <div class="admin-role">Administrator</div>
+    </div>
+  </div>
+  <a href="/admin"         class="nav-link active"><span class="icon">🗄️</span> Scam Database</a>
+  <a href="/"              class="nav-link"><span class="icon">🌐</span> Public Site</a>
+  <a href="/api/stats"     class="nav-link" target="_blank"><span class="icon">📊</span> API Stats</a>
+  <a href="/api/live-feed" class="nav-link" target="_blank"><span class="icon">📡</span> Live Feed JSON</a>
+  <a href="/admin/logout"  class="nav-link nav-logout-link"><span class="icon">🚪</span> Logout</a>
+</div>
+
+<!-- ================================================================
+     MAIN CONTENT
+     ================================================================ -->
+<div class="main">
+
+  <!-- ── Stat Cards ── -->
+  <div class="stats">
+    <div class="stat-card">
+      <div class="num">{{ stats.total }}</div>
+      <div class="lbl">Total Entries</div>
+    </div>
+    <div class="stat-card phone">
+      <div class="num">{{ stats.phone }}</div>
+      <div class="lbl">📱 Phone</div>
+    </div>
+    <div class="stat-card whatsapp">
+      <div class="num">{{ stats.whatsapp }}</div>
+      <div class="lbl">💬 WhatsApp</div>
+    </div>
+    <div class="stat-card website">
+      <div class="num">{{ stats.website }}</div>
+      <div class="lbl">🌐 Website</div>
+    </div>
+    <div class="stat-card instagram">
+      <div class="num">{{ stats.instagram }}</div>
+      <div class="lbl">📸 Instagram</div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       PASTE FROM EXCEL PANEL
+       ================================================================ -->
+  <div class="paste-panel">
+    <div class="paste-header">
+      <h3>📋 Paste from Excel / Add Entries</h3>
+      <small>Copy rows from Excel → click a cell below → Ctrl+V to paste all at once</small>
+    </div>
+
+    <div class="paste-body">
+      <p class="paste-hint">
+        <strong style="color:#fff">How to paste from Excel:</strong><br>
+        1. Make sure your columns are in order:
+           <code>Value</code> &nbsp;|&nbsp;
+           <code>Type</code>  &nbsp;|&nbsp;
+           <code>Description</code> &nbsp;|&nbsp;
+           <code>Source</code><br>
+        2. Select your rows in Excel → <code>Ctrl+C</code><br>
+        3. Click the first cell in the <strong>Value</strong> column below → <code>Ctrl+V</code><br>
+        4. Click <strong>Save to Database</strong> — done!
+      </p>
+
+      <table id="pasteGrid">
+        <thead>
+          <tr>
+            <th class="row-num">#</th>
+            <th>Value <small style="color:#555">(number / URL / username)</small></th>
+            <th>Type</th>
+            <th>Description <small style="color:#555">(optional)</small></th>
+            <th>Source <small style="color:#555">(optional)</small></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="gridBody"></tbody>
+      </table>
+
+      <div class="paste-actions">
+        <button class="btn btn-outline"  onclick="addGridRow()">+ Add Row</button>
+        <button class="btn btn-outline"  onclick="addGridRows(10)">+ Add 10 Rows</button>
+        <button class="btn btn-outline"  onclick="clearGrid()">Clear</button>
+        <button class="btn btn-success"  onclick="saveToDatabase()">💾 Save to Database</button>
+        <div id="importStatus"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       DATABASE TABLE
+       ================================================================ -->
+  <div class="section-header">
+    <h2>
+      📂 Database Entries
+      <small style="font-size:13px; color:#555; font-weight:normal;">
+        — {{ total_rows }} total
+      </small>
+    </h2>
+
+    <div class="toolbar">
+      <form class="filter-bar" method="GET" action="/admin">
+        <input type="text" name="search" value="{{ search }}"
+               placeholder="Search..." style="width:180px">
+        <select name="type">
+          <option value="all"      {% if type_filter == 'all'       %}selected{% endif %}>All Types</option>
+          <option value="Phone"    {% if type_filter == 'Phone'     %}selected{% endif %}>📱 Phone</option>
+          <option value="WhatsApp" {% if type_filter == 'WhatsApp'  %}selected{% endif %}>💬 WhatsApp</option>
+          <option value="Website"  {% if type_filter == 'Website'   %}selected{% endif %}>🌐 Website</option>
+          <option value="Instagram"{% if type_filter == 'Instagram' %}selected{% endif %}>📸 Instagram</option>
+        </select>
+        <button type="submit" class="btn btn-outline">Filter</button>
+        <a href="/admin" class="btn btn-outline">Reset</a>
+      </form>
+    </div>
+  </div>
+
+  <div class="data-table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Value</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Source</th>
+          <th>Reports</th>
+          <th>Added</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+        <tr id="row-{{ row['id'] }}">
+          <td>{{ row['id'] }}</td>
+          <td>{{ row['value'] }}</td>
+          <td>
+            <span class="badge badge-{{ row['type'] | lower }}">{{ row['type'] }}</span>
+          </td>
+          <td>{{ row['description'] or '—' }}</td>
+          <td>{{ row['source']      or '—' }}</td>
+          <td>{{ row['reports'] }}</td>
+          <td style="color:#555; font-size:12px;">
+            {{ row['added_at'][:10] if row['added_at'] else '—' }}
+          </td>
+          <td>
+            <button class="btn btn-outline btn-sm"
+              onclick="openEdit(
+                {{ row['id'] }},
+                '{{ row['value'] }}',
+                '{{ row['type'] }}',
+                '{{ (row['description'] or '') | replace("'", "\\'") | replace('"', '&quot;') }}'
+              )">
+              ✏️ Edit
+            </button>
+            <form method="POST" action="/admin/delete/{{ row['id'] }}"
+                  style="display:inline"
+                  onsubmit="return confirm('Delete this entry?')">
+              <button type="submit" class="btn btn-danger btn-sm">🗑️</button>
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="8" style="text-align:center; color:#555; padding:30px;">
+            No entries yet. Paste your Excel data above!
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── Pagination ── -->
+  {% if total_pages > 1 %}
+  <div class="pagination">
+    {% if page > 1 %}
+      <a href="?page={{ page - 1 }}&type={{ type_filter }}&search={{ search }}">← Prev</a>
+    {% endif %}
+
+    {% for p in range(1, total_pages + 1) %}
+      {% if p == page %}
+        <span class="current">{{ p }}</span>
+      {% elif p <= 3 or p >= total_pages - 2 or (p >= page - 2 and p <= page + 2) %}
+        <a href="?page={{ p }}&type={{ type_filter }}&search={{ search }}">{{ p }}</a>
+      {% elif p == 4 or p == total_pages - 3 %}
+        <span>…</span>
+      {% endif %}
+    {% endfor %}
+
+    {% if page < total_pages %}
+      <a href="?page={{ page + 1 }}&type={{ type_filter }}&search={{ search }}">Next →</a>
+    {% endif %}
+  </div>
+  {% endif %}
+
+</div><!-- /main -->
+
+<!-- ================================================================
+     EDIT MODAL
+     ================================================================ -->
+<div class="modal-bg" id="editModal">
+  <div class="modal-box">
+    <h3>✏️ Edit Entry</h3>
+    <form method="POST" id="editForm" action="">
+      <label>Value</label>
+      <input type="text" name="value" id="editValue" required>
+
+      <label>Type</label>
+      <select name="type" id="editType">
+        <option>Phone</option>
+        <option>WhatsApp</option>
+        <option>Website</option>
+        <option>Instagram</option>
+      </select>
+
+      <label>Description</label>
+      <input type="text" name="description" id="editDesc">
+
+      <div class="modal-actions">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-outline" onclick="closeEdit()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Toast notification -->
+<div id="toast"></div>
+
+<!-- Scripts loaded at end of body for best performance -->
+<script src="{{ url_for('static', filename='admin.js') }}"></script>
+
+</body>
+</html>

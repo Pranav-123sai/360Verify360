@@ -1,0 +1,499 @@
+/* ================================================================
+   VERIFY360 — Admin Panel Styles
+   admin.css
+   ================================================================ */
+
+/* ── Reset & Base ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #0b0f17;
+  color: #e0e0e0;
+  min-height: 100vh;
+}
+
+/* ================================================================
+   LAYOUT
+   ================================================================ */
+.sidebar {
+  width: 220px;
+  background: #0f1624;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-right: 1px solid #1f2a3a;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  margin-left: 220px;
+  padding: 30px;
+}
+
+/* ================================================================
+   SIDEBAR
+   ================================================================ */
+.brand {
+  padding: 22px 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #ff2e2e;
+  border-bottom: 1px solid #1f2a3a;
+}
+
+.brand span {
+  color: #fff;
+  font-size: 12px;
+  display: block;
+  margin-top: 2px;
+  font-weight: normal;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 20px;
+  color: #aaa;
+  text-decoration: none;
+  transition: 0.2s;
+  font-size: 14px;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background: #1a263a;
+  color: #fff;
+}
+
+.nav-link .icon {
+  font-size: 16px;
+}
+
+/* ================================================================
+   STAT CARDS
+   ================================================================ */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  background: #131c2b;
+  border-radius: 8px;
+  padding: 18px 16px;
+  border: 1px solid #1f2a3a;
+}
+
+.stat-card .num {
+  font-size: 28px;
+  font-weight: bold;
+  color: #00ffcc;
+}
+
+.stat-card .lbl {
+  font-size: 12px;
+  color: #888;
+  margin-top: 4px;
+}
+
+.stat-card.phone     .num { color: #4da6ff; }
+.stat-card.whatsapp  .num { color: #25d366; }
+.stat-card.website   .num { color: #ff9f43; }
+.stat-card.instagram .num { color: #e1306c; }
+
+/* ================================================================
+   SECTION HEADER & TOOLBAR
+   ================================================================ */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.section-header h2 {
+  font-size: 18px;
+  color: #fff;
+}
+
+.toolbar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+input[type=text],
+select {
+  background: #131c2b;
+  border: 1px solid #1f2a3a;
+  color: #e0e0e0;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 13px;
+  outline: none;
+}
+
+input[type=text]:focus,
+select:focus {
+  border-color: #00ffcc;
+}
+
+/* ── Buttons ── */
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.btn-primary       { background: #ff2e2e; color: #fff; }
+.btn-primary:hover { background: #cc0000; }
+
+.btn-success       { background: #00a86b; color: #fff; }
+.btn-success:hover { background: #007a4d; }
+
+.btn-outline       { background: transparent; border: 1px solid #1f2a3a; color: #aaa; }
+.btn-outline:hover { border-color: #00ffcc; color: #00ffcc; }
+
+.btn-danger        { background: #3d1212; color: #ff4d4d; border: 1px solid #ff4d4d; }
+.btn-danger:hover  { background: #ff4d4d; color: #fff; }
+
+.btn-sm { padding: 4px 10px; font-size: 12px; }
+
+/* ================================================================
+   PASTE PANEL (Excel spreadsheet grid)
+   ================================================================ */
+.paste-panel {
+  background: #131c2b;
+  border: 1px solid #1f2a3a;
+  border-radius: 8px;
+  margin-bottom: 28px;
+  overflow: hidden;
+}
+
+.paste-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid #1f2a3a;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.paste-header h3 {
+  font-size: 15px;
+  color: #fff;
+}
+
+.paste-header small {
+  color: #888;
+  font-size: 12px;
+}
+
+.paste-body {
+  padding: 16px 20px;
+}
+
+.paste-hint {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+.paste-hint code {
+  background: #0b0f17;
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: #00ffcc;
+  font-size: 12px;
+}
+
+/* Grid table */
+#pasteGrid {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+#pasteGrid thead tr {
+  background: #0f1624;
+}
+
+#pasteGrid th {
+  padding: 9px 10px;
+  color: #888;
+  font-weight: 600;
+  text-align: left;
+  border-bottom: 1px solid #1f2a3a;
+  user-select: none;
+}
+
+#pasteGrid td {
+  padding: 0;
+  border-bottom: 1px solid #0f1624;
+}
+
+#pasteGrid td input,
+#pasteGrid td select {
+  width: 100%;
+  padding: 7px 10px;
+  background: transparent;
+  border: none;
+  color: #e0e0e0;
+  font-size: 13px;
+  outline: none;
+}
+
+#pasteGrid td input:focus,
+#pasteGrid td select:focus {
+  background: #1a263a;
+}
+
+#pasteGrid td select { cursor: pointer; }
+#pasteGrid tr:hover td { background: #0f1830; }
+
+.row-num {
+  color: #555;
+  width: 36px;
+  text-align: center;
+  font-size: 11px;
+  padding: 7px 0 !important;
+}
+
+.del-cell {
+  width: 32px;
+  text-align: center;
+}
+
+.del-cell button {
+  background: none;
+  border: none;
+  color: #555;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 6px;
+}
+
+.del-cell button:hover { color: #ff4d4d; }
+
+.paste-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#importStatus {
+  font-size: 13px;
+  padding: 7px 14px;
+  border-radius: 5px;
+  display: none;
+}
+
+.status-ok  { background: #0e2a1e; color: #00ff99; border: 1px solid #00a86b; }
+.status-err { background: #2a1111; color: #ff4d4d; border: 1px solid #ff4d4d; }
+
+/* ================================================================
+   DATABASE TABLE
+   ================================================================ */
+.data-table-wrap {
+  background: #131c2b;
+  border: 1px solid #1f2a3a;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+table.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+table.data-table thead tr { background: #0f1624; }
+
+table.data-table th {
+  padding: 10px 14px;
+  color: #888;
+  font-weight: 600;
+  text-align: left;
+  border-bottom: 1px solid #1f2a3a;
+}
+
+table.data-table td {
+  padding: 9px 14px;
+  border-bottom: 1px solid #0f1624;
+  color: #ccc;
+}
+
+table.data-table tr:last-child td { border-bottom: none; }
+table.data-table tr:hover td      { background: #0f1830; }
+
+.badge {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.badge-phone     { background: #12284a; color: #4da6ff; }
+.badge-whatsapp  { background: #0d2a1a; color: #25d366; }
+.badge-website   { background: #2a1f0d; color: #ff9f43; }
+.badge-instagram { background: #2a0d1a; color: #e1306c; }
+
+/* ================================================================
+   PAGINATION
+   ================================================================ */
+.pagination {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 16px;
+  justify-content: center;
+}
+
+.pagination a,
+.pagination span {
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  text-decoration: none;
+  color: #aaa;
+  border: 1px solid #1f2a3a;
+}
+
+.pagination a:hover { border-color: #00ffcc; color: #00ffcc; }
+.pagination .current { background: #ff2e2e; color: #fff; border-color: #ff2e2e; }
+
+/* ================================================================
+   FILTER BAR
+   ================================================================ */
+.filter-bar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.filter-bar form { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* ================================================================
+   TOAST
+   ================================================================ */
+#toast {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  background: #131c2b;
+  border: 1px solid #00ffcc;
+  color: #00ffcc;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  display: none;
+  z-index: 9999;
+  animation: slideUp 0.3s;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* ================================================================
+   EDIT MODAL
+   ================================================================ */
+.modal-bg {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 888;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-bg.open { display: flex; }
+
+.modal-box {
+  background: #131c2b;
+  border: 1px solid #1f2a3a;
+  border-radius: 10px;
+  padding: 28px;
+  width: 440px;
+  max-width: 90vw;
+}
+
+.modal-box h3 {
+  margin-bottom: 16px;
+  color: #fff;
+}
+
+.modal-box label {
+  display: block;
+  font-size: 12px;
+  color: #888;
+  margin: 12px 0 4px;
+}
+
+.modal-box input,
+.modal-box select {
+  width: 100%;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* ================================================================
+   ADMIN USER BADGE (sidebar)
+   ================================================================ */
+.admin-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border-bottom: 1px solid #1f2a3a;
+  background: #0a1020;
+}
+
+.admin-icon {
+  font-size: 20px;
+}
+
+.admin-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #00ffcc;
+}
+
+.admin-role {
+  font-size: 11px;
+  color: #555;
+  margin-top: 2px;
+}
+
+/* ── Logout nav link (red tint) ── */
+.nav-logout-link {
+  margin-top: auto;
+  color: #884444 !important;
+  border-top: 1px solid #1f2a3a;
+}
+
+.nav-logout-link:hover {
+  background: #2a0a0a !important;
+  color: #ff4d4d !important;
+}

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VERIFY360 — Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+<body>
+
+<!-- ================================================================
+     BACKGROUND GRID DECORATION
+     ================================================================ -->
+<div class="bg-grid"></div>
+
+<!-- ================================================================
+     LOGIN CARD
+     ================================================================ -->
+<div class="card-wrap">
+
+  <!-- Logo -->
+  <div class="brand">
+    <span class="brand-logo">VERIFY360</span>
+    <p class="brand-sub">Community Scam Reporting Network</p>
+  </div>
+
+  <!-- Flash messages from Flask -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="flash flash-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <!-- Tab switcher -->
+  <div class="tab-bar">
+    <button class="tab-btn active" id="loginTabBtn"    onclick="switchTab('login')">Login</button>
+    <button class="tab-btn"        id="registerTabBtn" onclick="switchTab('register')">Register</button>
+  </div>
+
+  <!-- ── LOGIN FORM ── -->
+  <form id="loginForm" class="auth-form" method="POST" action="/login">
+    <input type="hidden" name="next" value="{{ next }}">
+
+    <div class="field">
+      <label for="loginUsername">Username</label>
+      <div class="input-wrap">
+        <span class="input-icon">👤</span>
+        <input type="text" id="loginUsername" name="username"
+               placeholder="Enter your username" autocomplete="username" required>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="loginPassword">Password</label>
+      <div class="input-wrap">
+        <span class="input-icon">🔒</span>
+        <input type="password" id="loginPassword" name="password"
+               placeholder="Enter your password" autocomplete="current-password" required>
+        <button type="button" class="toggle-pw" onclick="togglePassword('loginPassword', this)">👁️</button>
+      </div>
+    </div>
+
+    <div id="loginError" class="form-error hidden"></div>
+
+    <button type="submit" class="submit-btn" id="loginBtn">
+      Login &rarr;
+    </button>
+  </form>
+
+  <!-- ── REGISTER FORM ── -->
+  <form id="registerForm" class="auth-form hidden" method="POST" action="/register">
+    <input type="hidden" name="next" value="{{ next }}">
+
+    <div class="field">
+      <label for="regUsername">Username</label>
+      <div class="input-wrap">
+        <span class="input-icon">👤</span>
+        <input type="text" id="regUsername" name="username"
+               placeholder="Choose a username" autocomplete="username" required
+               minlength="3" maxlength="30">
+      </div>
+      <span class="field-hint">3–30 characters, letters and numbers only</span>
+    </div>
+
+    <div class="field">
+      <label for="regPassword">Password</label>
+      <div class="input-wrap">
+        <span class="input-icon">🔒</span>
+        <input type="password" id="regPassword" name="password"
+               placeholder="Choose a password" autocomplete="new-password" required
+               minlength="6">
+        <button type="button" class="toggle-pw" onclick="togglePassword('regPassword', this)">👁️</button>
+      </div>
+      <span class="field-hint">Minimum 6 characters</span>
+    </div>
+
+    <div class="field">
+      <label for="regConfirm">Confirm Password</label>
+      <div class="input-wrap">
+        <span class="input-icon">🔒</span>
+        <input type="password" id="regConfirm" name="confirm"
+               placeholder="Repeat your password" autocomplete="new-password" required>
+      </div>
+    </div>
+
+    <div id="registerError" class="form-error hidden"></div>
+
+    <button type="submit" class="submit-btn" id="registerBtn">
+      Create Account &rarr;
+    </button>
+  </form>
+
+  <!-- Footer note -->
+  <p class="card-note">
+    🛡️ An account is required to report scams — this helps prevent abuse and keeps
+    the database trustworthy.
+  </p>
+
+  <a href="/" class="back-link">← Back to scanner</a>
+
+</div><!-- /card-wrap -->
+
+<script src="{{ url_for('static', filename='login.js') }}"></script>
+</body>
+</html>

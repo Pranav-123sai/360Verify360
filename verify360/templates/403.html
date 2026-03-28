@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VERIFY360 — Access Denied</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='admin_login.css') }}">
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+
+<div class="card">
+  <div class="lock-icon">⛔</div>
+  <h1 class="title" style="color:#ff4d4d">403 — Forbidden</h1>
+  <p class="subtitle">You do not have permission to access this page.</p>
+
+  <div class="error-box" style="margin-top:20px">
+    This area is restricted to the system administrator only.
+  </div>
+
+  <a href="/" class="back-link" style="margin-top:30px; display:block">← Back to public site</a>
+</div>
+
+</body>
+</html>
